@@ -11,13 +11,21 @@ namespace Events
         private IRealtimePublisher publisher;
         private IEventSubscriber subscriber;
 
+        private PubnubOptions pubnubOptions;
+
         public ProximityDetectedEventProcessor(
             ILogger<ProximityDetectedEventProcessor> logger,
             IRealtimePublisher publisher,
-            IEventSubstriber substriber,
+            IEventSubscriber substriber,
             ITeamServiceClient teamServiceClient,
             IOptions<PubsubOptions> pubsubOptions)
         {
+            this.logger = logger;
+            this.publisher = publisher;
+            this.subscriber = substriber;
+
+            this.pubnubOptions = pubnubOptions;
+
             
         }
     }
