@@ -4,21 +4,21 @@ The Proximity Monitor application listens for ProximityDetected events. This exa
 
 ### Overview
 Purpose: Demonstrates monitoring an event stream for proximity detection events.
-Use Case: Useful for scenarios where proximity detection is critical and needs to be monitored in real-time.
+Use Case: Useful for scenarios where proximity detection is critical and needs to be monitored in real-time. it can send a new message out on a real-time messaging system using PubNub.
 
 Key Concepts
 - Event Processor: Component responsible for processing events and emitting streams.
 - Event Stream: The continuous flow of events processed by the event processor.
 - Monitor: Listens to the event stream and acts upon ProximityDetected events.
 
-### Implimentation
+### Implementation
 Design Considerations
 - Multiple Event Processors: You can have multiple processors handling different aspects of your application.
 - Multiple Outbound Streams: Each processor can emit various event streams.
 - Multiple Monitors: Each stream can be monitored by one or more monitors, depending on the application's needs.
 
 
-### Implimentation
+### Implementation
 1. Define Event Processor: Create processors to handle specific tasks within your domain.
 Emit Event Streams:
 

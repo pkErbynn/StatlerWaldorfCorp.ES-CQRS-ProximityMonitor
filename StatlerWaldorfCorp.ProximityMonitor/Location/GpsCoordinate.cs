@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Location
+namespace StatlerWaldorfCorp.ProximityMonitor.Location
 {
     public class GpsCoordinate
     {
