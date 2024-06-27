@@ -34,17 +34,33 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Events
                 Team team = teamServiceClient.GetTeam(proximityDetectedEvent.TeamId);
                 Member sourceMember = teamServiceClient.GetMember(proximityDetectedEvent.TeamId, proximityDetectedEvent.SourceMemberId);
                 Member targetMember = teamServiceClient.GetMember(proximityDetectedEvent.TeamId, proximityDetectedEvent.TargetMemberId);
+
+                ProximityDetectedRealtimeEvent proximityDetectedRealtimeEvent = new ProximityDetectedRealtimeEvent
+                {
+                    TargetMemberId = proximityDetectedEvent.TargetMemberId,
+                    SourceMemberId = proximityDetectedEvent.SourceMemberId,
+                    DetectionTime = proximityDetectedEvent.DetectionTime,
+                    SourceMemberLocation = proximityDetectedEvent.SourceMemberLocation,
+                    TargetMemberLocation = proximityDetectedEvent.TargetMemberLocation,
+                    MemberDistance = proximityDetectedEvent.MemberDistance,
+                    TeamId = proximityDetectedEvent.TeamId,
+                    TeamName = team.Name,
+                    SourceMemberName = $"{sourceMember.FirstName} {sourceMember.LastName}",
+                    TargetMemberName = $"{targetMember.FirstName} {targetMember.LastName}",
+                };
+
+                publisher.Publish(this.pubnubOptions.ProximityEventChannel, proximityDetectedRealtimeEvent.ToJson());
             };
         }
 
         public void start()
         {
-            throw new NotImplementedException();
+            subscriber.Subscribe();
         }
 
         public void stop()
         {
-            throw new NotImplementedException();
+            subscriber.Unsubscribe();
         }
     }
 }

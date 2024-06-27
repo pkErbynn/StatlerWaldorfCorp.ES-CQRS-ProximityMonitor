@@ -7,7 +7,7 @@ namespace StatlerWaldorfCorp.ES_CQRS_ProximityMonitor.TeamService
 {
     public class Team
     {
-        public string name { get; set; }
+        public string Name { get; set; }
         public Guid Id { get; set; }
     }
 }
