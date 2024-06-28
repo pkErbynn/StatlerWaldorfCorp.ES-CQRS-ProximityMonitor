@@ -1,6 +1,6 @@
 # StatlerWaldorfCorp.ES-ProximityMonitor
 
-The Proximity Monitor application listens for ProximityDetected events. This example illustrates how to create a monitor for an event stream emitted by your event processor.
+The Proximity Monitor application listens for ProximityDetected events. This example illustrates how to create a monitor for an event stream emitted by your event processor. Using Pubnub messaging, real-time update is sent to a monitor. Here, nearby team members can recieve mobile notifications at the same time.
 
 ### Overview
 Purpose: Demonstrates monitoring an event stream for proximity detection events.
