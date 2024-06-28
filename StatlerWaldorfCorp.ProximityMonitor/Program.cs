@@ -51,6 +51,7 @@ var realtimePublisher = app.Services.GetRequiredService<IRealtimePublisher>();
 
 await realtimePublisher.ValidateAsync();
 await realtimePublisher.PublishAsync(pubnubOptions.Value.StartupChannel, "{'hello': 'world'}");
+
 eventProcessor.Start();
 
 // app.Run();   // used since no controllers needed
