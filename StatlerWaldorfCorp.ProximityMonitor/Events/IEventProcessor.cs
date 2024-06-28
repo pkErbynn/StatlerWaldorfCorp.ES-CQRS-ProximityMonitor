@@ -7,7 +7,7 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Events
 {
     public interface IEventProcessor
     {
-        void start();
-        void stop();
+        void Start();
+        void Stop();
     }
 }

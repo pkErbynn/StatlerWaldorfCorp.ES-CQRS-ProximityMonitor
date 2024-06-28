@@ -14,14 +14,14 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Events
         private ILogger logger;
         private IRealtimePublisher publisher;
         private IEventSubscriber subscriber;
-        private PubnubOptions pubnubOptions;
+        private PubnubOptionSettings pubnubOptions;
 
         public ProximityDetectedEventProcessor(
             ILogger<ProximityDetectedEventProcessor> logger,
             IRealtimePublisher publisher,
             IEventSubscriber substriber,
             ITeamServiceClient teamServiceClient,
-            IOptions<PubnubOptions> pubsubOptions)
+            IOptions<PubnubOptionSettings> pubsubOptions)
         {
             this.logger = logger;
             this.publisher = publisher;
@@ -30,7 +30,7 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Events
 
             this.logger.LogInformation ("Proximity Event Process instance created...");
 
-            subscriber.ProximityDetectedEventReceived += (proximityDetectedEvent) => {
+            subscriber.ProximityDetectedEventReceived += async (proximityDetectedEvent) => {
                 Team team = teamServiceClient.GetTeam(proximityDetectedEvent.TeamId);
                 Member sourceMember = teamServiceClient.GetMember(proximityDetectedEvent.TeamId, proximityDetectedEvent.SourceMemberId);
                 Member targetMember = teamServiceClient.GetMember(proximityDetectedEvent.TeamId, proximityDetectedEvent.TargetMemberId);
@@ -49,16 +49,16 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Events
                     TargetMemberName = $"{targetMember.FirstName} {targetMember.LastName}",
                 };
 
-                publisher.Publish(this.pubnubOptions.ProximityEventChannel, proximityDetectedRealtimeEvent.ToJson());
+                await publisher.PublishAsync(this.pubnubOptions.ProximityEventChannel, proximityDetectedRealtimeEvent.ToJson());
             };
         }
 
-        public void start()
+        public void Start()
         {
             subscriber.Subscribe();
         }
 
-        public void stop()
+        public void Stop()
         {
             subscriber.Unsubscribe();
         }
