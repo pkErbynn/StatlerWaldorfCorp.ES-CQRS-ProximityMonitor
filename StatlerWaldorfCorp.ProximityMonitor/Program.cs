@@ -45,7 +45,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-var eventProcessor = app.Services.GetRequiredService<StatlerWaldorfCorp.ProximityMonitor.Events.IEventProcessor>();
+var eventProcessor = app.Services.GetRequiredService<IEventProcessor>();
 var pubnubOptions = app.Services.GetRequiredService<IOptions<PubnubOptionSettings>>();
 var realtimePublisher = app.Services.GetRequiredService<IRealtimePublisher>();
 
@@ -53,4 +53,4 @@ await realtimePublisher.ValidateAsync();
 await realtimePublisher.PublishAsync(pubnubOptions.Value.StartupChannel, "{'hello': 'world'}");
 eventProcessor.Start();
 
-app.Run();
+// app.Run();   // used since no controllers needed

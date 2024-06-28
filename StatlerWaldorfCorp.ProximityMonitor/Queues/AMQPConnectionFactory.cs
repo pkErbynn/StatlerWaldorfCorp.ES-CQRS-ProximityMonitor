@@ -18,23 +18,23 @@ namespace StatlerWaldorfCorp.ES_CQRS_ProximityMonitor.Queues
     {
         private ConnectionFactory connectionFactory;
         private IConnection connection;
+        private AMQPOptionSettings amqpOptions;
+        private readonly object _lock = new object();
 
-        public AMQPOptionSettings amqpOptions;
-        public object _lock;
         public AMQPConnectionFactory(
             ILogger<AMQPConnectionFactory> logger,
-            IOptions<AMQPOptionSettings> options)
+            IOptions<AMQPOptionSettings> amqpOptions)
         {
             this.connectionFactory = new ConnectionFactory
             {
-                UserName = amqpOptions.Username,
-                Password = amqpOptions.Password,
-                VirtualHost = amqpOptions.VirtualHost,
-                HostName = amqpOptions.HostName,
-                Uri = new Uri(amqpOptions.Uri)
+                UserName = amqpOptions.Value.Username,
+                Password = amqpOptions.Value.Password,
+                VirtualHost = amqpOptions.Value.VirtualHost,
+                HostName = amqpOptions.Value.HostName,
+                Uri = new Uri(amqpOptions.Value.Uri)
             };
 
-            logger.LogInformation($"AMQP Connection configured for URI : {amqpOptions.Uri}");
+            logger.LogInformation($"AMQP Connection configured for URI : {amqpOptions.Value.Uri}");
         }
 
         public IConnection GetConnection()

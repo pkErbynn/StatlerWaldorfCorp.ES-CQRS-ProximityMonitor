@@ -19,14 +19,14 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Events
         public ProximityDetectedEventProcessor(
             ILogger<ProximityDetectedEventProcessor> logger,
             IRealtimePublisher publisher,
-            IEventSubscriber substriber,
+            IEventSubscriber subscriber,
             ITeamServiceClient teamServiceClient,
-            IOptions<PubnubOptionSettings> pubsubOptions)
+            IOptions<PubnubOptionSettings> pubnubOptions)
         {
             this.logger = logger;
             this.publisher = publisher;
-            this.subscriber = substriber;
-            this.pubnubOptions = pubnubOptions;
+            this.subscriber = subscriber;
+            this.pubnubOptions = pubnubOptions.Value;
 
             this.logger.LogInformation ("Proximity Event Process instance created...");
 
@@ -49,18 +49,18 @@ namespace StatlerWaldorfCorp.ProximityMonitor.Events
                     TargetMemberName = $"{targetMember.FirstName} {targetMember.LastName}",
                 };
 
-                await publisher.PublishAsync(this.pubnubOptions.ProximityEventChannel, proximityDetectedRealtimeEvent.ToJson());
+                await this.publisher.PublishAsync(this.pubnubOptions.ProximityEventChannel, proximityDetectedRealtimeEvent.ToJson());
             };
         }
 
         public void Start()
         {
-            subscriber.Subscribe();
+            this.subscriber.Subscribe();
         }
 
         public void Stop()
         {
-            subscriber.Unsubscribe();
+            this.subscriber.Unsubscribe();
         }
     }
 }
