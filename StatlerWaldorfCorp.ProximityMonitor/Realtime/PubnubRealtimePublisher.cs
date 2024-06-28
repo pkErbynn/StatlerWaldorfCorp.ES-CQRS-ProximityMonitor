@@ -41,7 +41,6 @@ namespace StatlerWaldorfCorp.ES_CQRS_ProximityMonitor.Realtime
                                                                         .Channel(channelName)
                                                                         .Message(message)
                                                                         .ExecuteAsync();
-            // var response = publishResponse.Result;
             PNStatus status = publishResponse.Status;
             if (status.Error) {
                 logger.LogError($"Failed to publish on channel {channelName}: {status.ErrorData.Information}");
