@@ -7,7 +7,7 @@ namespace StatlerWaldorfCorp.ES_CQRS_ProximityMonitor.Realtime
 {
     public interface IRealtimePublisher
     {
-        void Publish(string channelName, string message);
-        void Validate();
+        Task PublishAsync(string channelName, string message);
+        Task ValidateAsync();
     }
 }

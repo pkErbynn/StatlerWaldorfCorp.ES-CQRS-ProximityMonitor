@@ -9,6 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="6.0.8" />
+    <!-- <PackageReference Include="Pubnub" Version="3.4.0.1" /> -->
+    <PackageReference Include="Pubnub" Version="6.20.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
