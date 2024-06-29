@@ -1,0 +1,65 @@
+<!-- SAMPLE REALTIME MONITOR CLIENT -->
+
+<html>
+    <head>
+        <title>Realtime page sample</title>
+        <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.4.0.js"></script>
+        <script>
+            const pubnub = new PubNub({
+                subscribeKey: "myPublishKey",
+                publishKey: "mySubscribeKey",
+                userId: "myUniqueUserId"
+            });
+
+            // create a local channel entity
+            const channel = pubnub.channel('proximityevents');
+            // create a subscription on the channel
+            const subscription = channel.subscription();
+
+            pubnub.addListener({  
+                message: showMessage(),
+                presence: function(p) {
+                    // handle presence
+                    var action = p.action; // Can be join, leave, state-change or timeout
+                    var channelName = p.channel; // The channel for which the message belongs
+                    var occupancy = p.occupancy; // No. of users connected with the channel
+                    var state = p.state; // User State
+                    var channelGroup = p.subscription; //  The channel group or wildcard subscription match (if exists)
+                    var publishTime = p.timestamp; // Publish timetoken
+                    var timetoken = p.timetoken;  // Current timetoken
+                    var uuid = p.uuid; // UUIDs of users who are connected with the channel
+                },
+                status: function(s) {
+                    console.log('Status', s.category);
+                }
+            });
+
+            console.log("Subscribing..");
+            pubnub.subscribe({
+              channels: ['proximityevents'] 
+            });
+
+            const showMessage = (msg) => {
+				 // handle message
+                 var channelName = m.channel; // The channel for which the message belongs
+                var channelGroup = m.subscription; // The channel group or wildcard subscription match (if exists)
+                var pubTT = m.timetoken; // Publish timetoken
+                var msg = JSON.parse(m.message); // The Payload
+                console.log("New Message!!", msg);
+                var newDiv = document.createElement('div')
+                var newStr = "** (" + msg.TeamName + ") " + msg.SourceMemberName + " moved within " + msg.MemberDistance + "km of " + msg.TargetMemberName;
+                newDiv.innerHTML = newStr
+                var oldDiv = document.getElementById('chatLog')
+                oldDiv.appendChild(newDiv)
+			};
+
+        </script>
+    </head>
+    <body>
+        <h1>Proximity Monitor</h1>
+        <p>Proximity Events listed below.</p>
+
+        <div id="chatLog">
+        </div>
+    </body>
+</html>
