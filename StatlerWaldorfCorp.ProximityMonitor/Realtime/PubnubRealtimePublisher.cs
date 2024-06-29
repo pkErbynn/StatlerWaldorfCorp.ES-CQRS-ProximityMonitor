@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using PubnubApi;
 
 namespace StatlerWaldorfCorp.ES_CQRS_ProximityMonitor.Realtime
@@ -26,12 +22,12 @@ namespace StatlerWaldorfCorp.ES_CQRS_ProximityMonitor.Realtime
              var result = await pubnubClient.Time().ExecuteAsync();
             if (result.Status.Error)
             {
-                logger.LogError($"Unable to connect to Pubnub: {result.Status.ErrorData.Information}");
+                this.logger.LogError($"Unable to connect to Pubnub: {result.Status.ErrorData.Information}");
                 throw result.Status.ErrorData.Throwable;
             }
             else
             {
-                logger.LogInformation("Pubnub connection established.");
+                this.logger.LogInformation("Pubnub connection established.");
             }
         }
 
@@ -42,11 +38,13 @@ namespace StatlerWaldorfCorp.ES_CQRS_ProximityMonitor.Realtime
                                                                         .Message(message)
                                                                         .ExecuteAsync();
             PNStatus status = publishResponse.Status;
+
             if (status.Error) {
-                logger.LogError($"Failed to publish on channel {channelName}: {status.ErrorData.Information}");
+                this.logger.LogError($"Failed to publish on channel {channelName}");
+                // this.logger.LogError($"Failed to publish on channel {channelName}: {status.ErrorData.Information}");
                 return;
             }
-            logger.LogInformation($"Published message on channel {channelName}, {status.AffectedChannels.Count} affected channels, message: {message}, code: {status.StatusCode}");
+            this.logger.LogInformation($"Published message on channel {channelName}, {status.AffectedChannels.Count} affected channels, message: {message}, code: {status.StatusCode}");
         }
     }
 }

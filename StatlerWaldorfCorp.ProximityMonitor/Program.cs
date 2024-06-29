@@ -26,8 +26,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<AMQPConnectionFactory>();
 builder.Services.AddTransient<EventingBasicConsumer, RabbitMQEventingConsumer>();
-builder.Services.AddTransient<IEventSubscriber, RabbitMQEventSubscriber>();
-builder.Services.AddTransient<IEventProcessor, ProximityDetectedEventProcessor>();
+builder.Services.AddSingleton<IEventSubscriber, RabbitMQEventSubscriber>();
+builder.Services.AddSingleton<IEventProcessor, ProximityDetectedEventProcessor>();
 builder.Services.AddTransient<ITeamServiceClient, HttpTeamServiceClient>();
 builder.Services.AddRealtimeService();
 builder.Services.AddSingleton<IRealtimePublisher, PubnubRealtimePublisher>();
@@ -50,8 +50,12 @@ var pubnubOptions = app.Services.GetRequiredService<IOptions<PubnubOptionSetting
 var realtimePublisher = app.Services.GetRequiredService<IRealtimePublisher>();
 
 await realtimePublisher.ValidateAsync();
-await realtimePublisher.PublishAsync(pubnubOptions.Value.StartupChannel, "{'hello': 'world'}");
+var message = new System.Text.Json.Nodes.JsonObject
+{
+    ["Hello"] = "World",
+};
+await realtimePublisher.PublishAsync(pubnubOptions.Value.StartupChannel, message.ToString());
 
 eventProcessor.Start();
 
-// app.Run();   // used since no controllers needed
+// app.Run();
