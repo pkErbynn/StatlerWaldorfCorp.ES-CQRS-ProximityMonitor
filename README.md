@@ -51,7 +51,7 @@ Each of these technologies serves different purposes and is chosen based on the 
 - Nature: Request-response model.
 - Use Case: Synchronous communication where the client initiates requests and waits for responses.
 - Pros:
-    - Simple and widely used.
+    - Simple and widely used for variety of clients, including web browsers and mobile devices.
     - Suitable for RESTful APIs and web services.
 - Cons:
     - Not suitable for real-time updates.
@@ -80,7 +80,29 @@ Each of these technologies serves different purposes and is chosen based on the 
     - Requires more complex setup and infrastructure.
     - Persistent connections can be resource-intensive.
 
+4. gRPC
+- Nature: High-performance, primarily operates as a request-response model but with several advanced features that make it more efficient and versatile compared to traditional HTTP/REST. Improved version of HTTP/REST in short.
+- Use Case: Efficient communication between microservices, supports streaming and real-time updates.
+- Unlike HTTP which is:
+    - Text-Based (typically uses JSON or XML), 
+    - Stateles (each request is independent, ),
+    - Widely Compatibility to all web browsers and most programming languages out of the box.
+    - GRPC is:
+        - Binary-Based - uses Protocol Buffers which are more efficient for serialization/deserialization.
+        - Stateful Connections - leveraging HTTP/2 allows for persistent connections, reducing overhead for each request.
+        - Supportd by various streaming models, enhancing real-time communication capabilities.
+- Pros:
+    - High performance and low latency.
+    - Supports bidirectional streaming.
+    - Strongly typed contracts with Protocol Buffers (protobuf).
+    - Ideal for microservices architecture.
+- Cons:
+    - More complex to set up and manage compared to simple HTTP/REST.
+    - Requires support for HTTP/2, which may not be available in all environments.
+    - Steeper learning curve due to Protocol Buffers and gRPC-specific concepts.
+
 *In Summary..*
 - HTTP: Best for request-response interactions, not ideal for real-time updates.
 - Message Queues: Best for asynchronous, decoupled communication between backend services.
 - Real-Time Communication: Best for real-time, interactive applications requiring immediate updates.
+- gRPC: Best for high-performance communication between microservices, supports real-time updates with streaming, and provides strong typing with Protocol Buffers.
